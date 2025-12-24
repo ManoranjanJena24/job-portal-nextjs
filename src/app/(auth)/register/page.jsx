@@ -1,11 +1,49 @@
 "use client"
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { registerUser } from '@/redux/action/user';
+import { ArrowRight } from 'lucide-react';
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 
 const Register = () => {
     const [role , setRole]= useState("")
     const [name, setName] = useState("")
+    const [email, setEmail] = useState('')           
+    const [password, setPassword] = useState('')           
+    const [phoneNumber, setPhoneNumber] = useState('')           
+    const [bio, setBio] = useState('')           
+    const [resume, setResume] = useState('')           
+    const [profilePic, setProfilePic] = useState('')  
+
+    const dispatch = useDispatch()
+    const submitHandler = (e)=>{
+        e.preventDefault()
+        const formData = new FormData()
+
+        formData.append("role", role )
+        formData.append("name", name )
+        formData.append("email", email )
+        formData.append("password", password )
+       formData.append("phoneNumber", phoneNumber )
+       
+        formData.append("profilePic", profilePic);
+
+        {
+            role ==="jobseeker" && (
+                formData.append("bio", bio)
+            )
+        }
+        {
+            role ==="jobseeker" && (
+                formData.append("resume", resume)
+            )
+        }
+
+        dispatch(registerUser(formData))
+
+    }          
   return (
     <div className="mt-20 md:mt-5 z-0">
       <div className="md:w-1/3 border border-gray-400 rounded-lg p-8 flex flex-col w-full relative shadow-md m-auto">
@@ -14,12 +52,13 @@ const Register = () => {
           <span className="text-3xl">Hire</span>
           <span className="text-3xl text-red-500">Heven</span>
         </h2>
-        <form className="flex flex-col justify-between mt-3">
+        <form onSubmit={submitHandler} className="flex flex-col justify-between mt-3">
           <div className="grid w-full max-w-sm items-center gap-1.5 ml-1">
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="w-full p-2 border-2 border-gray-300 rounded"
+              required
             >
               <option value="">Select Role</option>
               <option value="jobseeker"> JobSeeker</option>
@@ -33,47 +72,63 @@ const Register = () => {
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
 
                 <Label>Email</Label>
                 <Input
                   type="email"
                   placeholder="Email"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
 
                 <Label>Password</Label>
                 <Input
                   type="password"
                   placeholder="Password"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
 
                 <Label>PhoneNumber</Label>
                 <Input
                   type="number"
                   placeholder="PhoneNumber"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
                 />
 
                 <Label>ProfilePic</Label>
-                <Input type="file" accept="image/*" />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setProfilePic(e.target.files[0])}
+                  required
+                />
                 {role === "jobseeker" && (
                   <>
                     <Label>Resume</Label>
-                    <Input type="file" accept="application/pdf" />
+                    <Input
+                      type="file"
+                      accept="application/pdf"
+                      onChange={(e) => setResume(e.target.files[0])}
+                    />
                     <Label>Bio</Label>
                     <Input
                       type="text"
                       placeholder="Enter Bio"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
                     />
                   </>
                 )}
+                <Button className="flex justify-center items-center gap-2 ">
+                  Submit <ArrowRight size={18} />
+                </Button>
               </>
             )}
           </div>

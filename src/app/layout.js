@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ProviderRedux from "./provider";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 
 
@@ -17,7 +18,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <ProviderRedux>
+        <ReduxProvider>
+       
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -27,7 +29,8 @@ export default function RootLayout({ children }) {
             <Navbar />
             {children}
           </ThemeProvider>
-        </ProviderRedux>
+       
+        </ReduxProvider>
       </body>
     </html>
   );
