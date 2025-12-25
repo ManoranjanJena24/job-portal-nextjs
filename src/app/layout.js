@@ -3,6 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ProviderRedux from "./provider";
 import ReduxProvider from "@/redux/ReduxProvider";
+import UserMessage from "./UserMessage";
+import { Toaster } from "@/components/ui/sonner";
 
 
 
@@ -19,7 +21,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ReduxProvider>
-       
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -28,8 +29,9 @@ export default function RootLayout({ children }) {
           >
             <Navbar />
             {children}
+            <Toaster richColors position="top-right" closeButton />
+            <UserMessage />
           </ThemeProvider>
-       
         </ReduxProvider>
       </body>
     </html>

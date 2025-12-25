@@ -33,6 +33,35 @@ const userSlice = createSlice({
       state.isAuth = false;
       state.error = action.payload;
     },
+    loginSuccess: (state , action)=>{
+      state.btnLoading = false;
+      state.user = action.payload.user;
+      state.isAuth = true;
+      state.message = action.payload.message;
+    },
+    getUserSuccess:(state , action)=>{
+      state.loading = false;
+      state.user = action.payload;
+      state.isAuth = true
+    },
+    getUserFail:(state)=>{
+      state.isAuth = false
+      state.loading = false
+    }
+    
+    ,
+     loginFail: (state, action) => {
+      state.btnLoading = false;
+      state.user = null;
+      state.isAuth = false;
+      state.error = action.payload;
+    },
+
+    logoutSuccess:(state )=>{
+      state.user = null;
+      state.isAuth = false;
+      state.message ="Logged Out"
+    },
     clearMessage:(state)=>{
         state.message = null;
     },
@@ -43,7 +72,7 @@ const userSlice = createSlice({
 });
 
 
-export const {loadingStart , btnLoadingStart ,registerFail ,registerSuccess,clearError ,clearMessage} = userSlice.actions
+export const {loadingStart , btnLoadingStart ,registerFail ,registerSuccess,loginFail, loginSuccess,getUserFail,getUserSuccess,logoutSuccess,clearError ,clearMessage} = userSlice.actions
 
 export default userSlice.reducer
 

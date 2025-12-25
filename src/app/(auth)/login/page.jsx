@@ -4,23 +4,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginUser } from "@/redux/action/user";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const {isAuth , btnLoading} = useSelector((state)=>state.user)
+
+  if(isAuth) return redirect("/")
+  
+
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(loginUser(email,password))
 
-    const formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    // const formData = new FormData();
+    // formData.append("email", email);
+    // formData.append("password", password);
 
-    dispatch(loginUser(formData));
+    // dispatch(loginUser(formData));
   };
 
   return (
@@ -52,11 +60,23 @@ const Login = () => {
               required
             />
           </div>
-
-          <Button className="flex justify-center items-center gap-2">
+ 
+          <Button disabled={btnLoading} className="flex justify-center items-center gap-2">
             Login <ArrowRight size={18} />
           </Button>
         </form>
+        <Link
+          className="mt-2 text-blue-500 underline text-sm ml-2"
+          href={"/register"}
+        >
+          Don't have an account
+        </Link>
+        <Link
+          className="mt-2 text-blue-500 underline text-sm ml-2"
+          href={"/forgot"}
+        >
+          Forgot Password?
+        </Link>
       </div>
     </div>
   );

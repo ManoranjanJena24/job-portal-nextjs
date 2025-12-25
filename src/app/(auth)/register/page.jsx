@@ -4,8 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { registerUser } from '@/redux/action/user';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Register = () => {
     const [role , setRole]= useState("")
@@ -16,6 +18,10 @@ const Register = () => {
     const [bio, setBio] = useState('')           
     const [resume, setResume] = useState('')           
     const [profilePic, setProfilePic] = useState('')  
+
+    const {isAuth , btnLoading} =useSelector((state) => state.user)
+
+    if(isAuth) return redirect("/")
 
     const dispatch = useDispatch()
     const submitHandler = (e)=>{
@@ -52,7 +58,10 @@ const Register = () => {
           <span className="text-3xl">Hire</span>
           <span className="text-3xl text-red-500">Heven</span>
         </h2>
-        <form onSubmit={submitHandler} className="flex flex-col justify-between mt-3">
+        <form
+          onSubmit={submitHandler}
+          className="flex flex-col justify-between mt-3"
+        >
           <div className="grid w-full max-w-sm items-center gap-1.5 ml-1">
             <select
               value={role}
@@ -126,13 +135,14 @@ const Register = () => {
                     />
                   </>
                 )}
-                <Button className="flex justify-center items-center gap-2 ">
+                <Button disabled={btnLoading} className="flex justify-center items-center gap-2 ">
                   Submit <ArrowRight size={18} />
                 </Button>
               </>
             )}
           </div>
         </form>
+        <Link className='mt-2 text-blue-500 underline text-sm ml-2' href={"/login"}> have an account</Link>
       </div>
     </div>
   );
