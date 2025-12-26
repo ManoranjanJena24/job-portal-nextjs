@@ -42,7 +42,9 @@ const schema = new mongoose.Schema({
             type: String ,
             required: true,
         }
-    ]
+    ],
+    resetPasswordExpire: Date ,
+    resetToken:String,
     
 },{
     timestamps: true

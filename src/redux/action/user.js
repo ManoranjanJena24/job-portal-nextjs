@@ -1,5 +1,5 @@
 import axios from "axios"
-import { btnLoadingStart, getUserFail, getUserSuccess, loadingStart, loginFail, loginSuccess, registerFail, registerSuccess } from "../reducer/userReducer"
+import { btnLoadingStart, forgotFail, forgotSuccess, getUserFail, getUserSuccess, loadingStart, loginFail, loginSuccess, registerFail, registerSuccess, resetFail, resetSuccess } from "../reducer/userReducer"
 import Cookies from "js-cookie"
 
 
@@ -43,4 +43,34 @@ export const getUser = ()=>async(dispatch)=>{
            dispatch(getUserFail(error.response.data.message));
   
     }
+}
+
+
+
+export const forgotPassword = (email , setEmail)=>async(dispatch)=>{
+  try {
+    dispatch(btnLoadingStart())
+    const {data} = await axios.post("/api/user/forgot" , {email})
+
+    dispatch(forgotSuccess(data))
+    setEmail("")
+    
+  } catch (error) {
+    dispatch(forgotFail(error.response.data.message))
+  }
+}
+
+
+
+export const resetPassword = (password ,token , setPassword)=>async(dispatch)=>{
+  try {
+    dispatch(btnLoadingStart())
+    const {data} = await axios.post("/api/user/reset?token="+token , {password})
+
+    dispatch(resetSuccess(data))
+    setPassword("")
+    
+  } catch (error) {
+    dispatch(resetFail(error.response.data.message))
+  }
 }
