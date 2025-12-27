@@ -80,6 +80,15 @@ const userSlice = createSlice({
       state.btnLoading = false;
       state.error = action.payload;
     }
+    , photoUpdateSuccess:(state , action)=>{
+      state.btnLoading=false;
+      state.message = action.payload.message;
+
+    },
+    photoUpdateFail:(state , action)=>{
+      state.btnLoading = false;
+      state.error = action.payload;
+    }
     ,
     clearMessage:(state)=>{
         state.message = null;
@@ -105,6 +114,8 @@ export const {
   forgotFail,
   resetSuccess,
   resetFail,
+  photoUpdateFail,
+  photoUpdateSuccess,
   clearError,
   clearMessage,
 } = userSlice.actions;

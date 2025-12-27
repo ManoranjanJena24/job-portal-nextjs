@@ -1,5 +1,5 @@
 import axios from "axios"
-import { btnLoadingStart, forgotFail, forgotSuccess, getUserFail, getUserSuccess, loadingStart, loginFail, loginSuccess, registerFail, registerSuccess, resetFail, resetSuccess } from "../reducer/userReducer"
+import { btnLoadingStart, forgotFail, forgotSuccess, getUserFail, getUserSuccess, loadingStart, loginFail, loginSuccess, photoUpdateFail, photoUpdateSuccess, registerFail, registerSuccess, resetFail, resetSuccess } from "../reducer/userReducer"
 import Cookies from "js-cookie"
 
 
@@ -74,3 +74,24 @@ export const resetPassword = (password ,token , setPassword)=>async(dispatch)=>{
     dispatch(resetFail(error.response.data.message))
   }
 }
+
+
+export const updatePhoto =(formdata)=> async(dispatch)=>{
+  try {
+    dispatch(loadingStart())
+    const {data} = await axios.post(
+      "/api/user/update/profilepic?token=" + Cookies.get("token"),
+      formdata
+    )
+
+    dispatch(photoUpdateSuccess(data))
+    dispatch(getUser())
+
+    
+  } catch (error) {
+        dispatch(photoUpdateFail(error.response.data.message));
+  }
+}
+
+
+
